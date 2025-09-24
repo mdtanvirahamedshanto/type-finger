@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import TypingTestHeader from "./TypingTestHeader";
 import TypingTestInput from "./TypingTestInput";
 import TypingTestResults from "./TypingTestResults";
-import PerformanceGraph from "./PerformanceGraph";
+// import PerformanceGraph from "./PerformanceGraph";
 import { calculateWPM, calculateAccuracy } from "@/lib/typingUtils";
 import { useTheme } from "../theme/ThemeProvider";
 
@@ -22,7 +22,7 @@ type PerformancePoint = {
 
 export default function TypingTest({ text, language }: TypingTestProps) {
   const { data: session } = useSession();
-  const { currentTheme } = useTheme();
+  const { currentTheme: _currentTheme } = useTheme();
   const [input, setInput] = useState("");
   const [startTime, setStartTime] = useState<number | null>(null);
   const [endTime, setEndTime] = useState<number | null>(null);
@@ -31,9 +31,9 @@ export default function TypingTest({ text, language }: TypingTestProps) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [performanceData, setPerformanceData] = useState<PerformancePoint[]>([]);
-  const [testDuration, setTestDuration] = useState<number>(30); // Default 30 seconds
-  const [testMode, setTestMode] = useState<"time" | "words" | "quote">("time");
-  const [wordCount, setWordCount] = useState<number>(25); // Default 25 words
+  const [testDuration, _setTestDuration] = useState<number>(30); // Default 30 seconds
+  const [testMode, _setTestMode] = useState<"time" | "words" | "quote">("time");
+  const [wordCount, _setWordCount] = useState<number>(25); // Default 25 words
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentWPM, setCurrentWPM] = useState(0);
   const [currentAccuracy, setCurrentAccuracy] = useState(100);

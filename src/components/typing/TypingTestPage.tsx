@@ -15,14 +15,14 @@ type TypingTestPageProps = {
   session: Session | null;
 };
 
-export default function TypingTestPage({ session }: TypingTestPageProps) {
-  const { currentTheme } = useTheme();
+export default function TypingTestPage({ session: _session }: TypingTestPageProps) {
+  const { currentTheme: _currentTheme } = useTheme();
   const [testMode, setTestMode] = useState<"time" | "words" | "quote">("time");
   const [testDuration, setTestDuration] = useState<number>(30);
   const [wordCount, setWordCount] = useState<number>(25);
-  const [currentWPM, setCurrentWPM] = useState(0);
-  const [currentAccuracy, setCurrentAccuracy] = useState(100);
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [currentWPM, _setCurrentWPM] = useState(0);
+  const [currentAccuracy, _setCurrentAccuracy] = useState(100);
+  const [elapsedTime, _setElapsedTime] = useState(0);
   const [performanceData, setPerformanceData] = useState<{time: number, wpm: number, raw: number, accuracy: number}[]>([]);
 
   // Mock data for the performance graph
@@ -36,7 +36,7 @@ export default function TypingTestPage({ session }: TypingTestPageProps) {
       }));
       setPerformanceData(mockData);
     }
-  }, []);
+  }, [performanceData.length]);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">

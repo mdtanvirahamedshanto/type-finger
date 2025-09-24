@@ -99,8 +99,8 @@ export default function SettingsPage() {
               <div className="flex items-center mb-2">
                 <span className="text-sm opacity-70 mr-2">reset settings</span>
               </div>
-              <p className="text-sm mb-2">Resets settings to the default (but doesn't touch your tags and presets).</p>
-              <p className="text-sm text-red-500 mb-2">You can't undo this action!</p>
+              <p className="text-sm mb-2">Resets settings to the default (but doesn&apos;t touch your tags and presets).</p>
+              <p className="text-sm text-red-500 mb-2">You can&apos;t undo this action!</p>
               <button 
                 className="px-4 py-2 rounded-md text-sm bg-red-500 text-white"
               >

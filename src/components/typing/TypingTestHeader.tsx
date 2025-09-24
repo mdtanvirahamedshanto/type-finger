@@ -7,7 +7,7 @@ interface TypingTestHeaderProps {
 }
 
 export default function TypingTestHeader({ language }: TypingTestHeaderProps) {
-  const [timer, setTimer] = useState(0);
+  const [timer, _setTimer] = useState(0);
 
   return (
     <div className="flex justify-between items-center mb-4">

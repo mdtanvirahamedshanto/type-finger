@@ -21,7 +21,7 @@ interface SessionParams {
   session: Session;
   user: {
     id: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -52,6 +52,17 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-const handler = NextAuth(authOptions);
+const handler = NextAuth({
+  ...authOptions,
+  callbacks: {
+    ...authOptions.callbacks,
+    session: async ({ session, token, user }) => {
+      if (session.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    }
+  }
+});
 
 export { handler as GET, handler as POST };
