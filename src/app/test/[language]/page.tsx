@@ -8,14 +8,22 @@ interface TypingTestPageProps {
   };
 }
 
-export default function TypingTestPage({ params }: TypingTestPageProps) {
+// Generate static params for supported languages
+export function generateStaticParams() {
+  return [
+    { language: "english" },
+    { language: "bangla" },
+  ];
+}
+
+export default async function TypingTestPage({ params }: TypingTestPageProps) {
   // Validate language parameter
   if (params.language !== "english" && params.language !== "bangla") {
     notFound();
   }
 
   const language = params.language as "english" | "bangla";
-  const text = getRandomText(language);
+  const text = await getRandomText(language);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -24,12 +32,4 @@ export default function TypingTestPage({ params }: TypingTestPageProps) {
       </div>
     </div>
   );
-}
-
-// Generate static params for supported languages
-export function generateStaticParams() {
-  return [
-    { language: "english" },
-    { language: "bangla" },
-  ];
 }

@@ -5,7 +5,7 @@ import { RefObject } from "react";
 interface TypingTestInputProps {
   value: string;
   onChange: (value: string) => void;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | null>;
   disabled: boolean;
 }
 

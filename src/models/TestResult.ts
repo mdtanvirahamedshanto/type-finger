@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface ITestResult extends Document {
+export interface ITestResult extends Omit<Document, 'errors'> {
   userId: mongoose.Types.ObjectId;
   language: 'english' | 'bangla';
   wpm: number;

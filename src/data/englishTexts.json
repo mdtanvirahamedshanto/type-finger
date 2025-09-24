@@ -1,0 +1,34 @@
+{
+  "texts": [
+    {
+      "id": "en1",
+      "text": "The quick brown fox jumps over the lazy dog. This pangram contains all the letters of the English alphabet. It is often used to test typewriters and computer keyboards, and to display examples of fonts.",
+      "difficulty": "easy",
+      "category": "pangram"
+    },
+    {
+      "id": "en2",
+      "text": "Programming is the process of creating a set of instructions that tell a computer how to perform a task. Programming can be done using a variety of computer programming languages, such as JavaScript, Python, and C++.",
+      "difficulty": "medium",
+      "category": "technology"
+    },
+    {
+      "id": "en3",
+      "text": "Typing speed is typically measured in words per minute, which is abbreviated as WPM. The average typing speed is around 40 WPM, while professional typists can reach speeds of 75 WPM or higher.",
+      "difficulty": "medium",
+      "category": "typing"
+    },
+    {
+      "id": "en4",
+      "text": "The Internet is a global network of billions of computers and other electronic devices. With the Internet, it's possible to access almost any information, communicate with anyone else in the world, and do much more.",
+      "difficulty": "medium",
+      "category": "technology"
+    },
+    {
+      "id": "en5",
+      "text": "Artificial intelligence is the simulation of human intelligence processes by machines, especially computer systems. These processes include learning, reasoning, and self-correction.",
+      "difficulty": "hard",
+      "category": "technology"
+    }
+  ]
+}

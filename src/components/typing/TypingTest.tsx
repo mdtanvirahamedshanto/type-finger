@@ -5,15 +5,24 @@ import { useSession } from "next-auth/react";
 import TypingTestHeader from "./TypingTestHeader";
 import TypingTestInput from "./TypingTestInput";
 import TypingTestResults from "./TypingTestResults";
+import PerformanceGraph from "./PerformanceGraph";
 import { calculateWPM, calculateAccuracy } from "@/lib/typingUtils";
+import { useTheme } from "../theme/ThemeProvider";
 
 interface TypingTestProps {
   text: string;
   language: "english" | "bangla";
 }
 
+type PerformancePoint = {
+  time: number;
+  wpm: number;
+  raw: number;
+};
+
 export default function TypingTest({ text, language }: TypingTestProps) {
   const { data: session } = useSession();
+  const { currentTheme } = useTheme();
   const [input, setInput] = useState("");
   const [startTime, setStartTime] = useState<number | null>(null);
   const [endTime, setEndTime] = useState<number | null>(null);
@@ -21,8 +30,15 @@ export default function TypingTest({ text, language }: TypingTestProps) {
   const [isFinished, setIsFinished] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const [performanceData, setPerformanceData] = useState<PerformancePoint[]>([]);
+  const [testDuration, setTestDuration] = useState<number>(30); // Default 30 seconds
+  const [testMode, setTestMode] = useState<"time" | "words" | "quote">("time");
+  const [wordCount, setWordCount] = useState<number>(25); // Default 25 words
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const [currentWPM, setCurrentWPM] = useState(0);
+  const [currentAccuracy, setCurrentAccuracy] = useState(100);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  
   const words = text.split(" ");
 
   useEffect(() => {
@@ -32,9 +48,50 @@ export default function TypingTest({ text, language }: TypingTestProps) {
     }
   }, []);
 
+  // Track WPM in real-time
+  useEffect(() => {
+    if (!startTime || isFinished) return;
+    
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const timeElapsed = (now - startTime) / 1000;
+      setElapsedTime(timeElapsed);
+      
+      // Calculate current WPM
+      const wordsTyped = currentWordIndex + (input.length > 0 ? input.length / 5 : 0);
+      const minutes = timeElapsed / 60;
+      const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
+      setCurrentWPM(wpm);
+      
+      // Calculate current accuracy
+      const acc = calculateAccuracy(currentWordIndex + 1, errors);
+      setCurrentAccuracy(acc);
+      
+      // Add data point for graph
+      setPerformanceData(prev => [
+        ...prev,
+        {
+          time: Math.round(timeElapsed),
+          wpm: wpm,
+          raw: wpm + Math.round(errors / minutes)
+        }
+      ]);
+      
+      // Check if time-based test is complete
+      if (testMode === "time" && timeElapsed >= testDuration) {
+        setEndTime(now);
+        setIsFinished(true);
+      }
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [startTime, currentWordIndex, input, errors, isFinished, testMode, testDuration]);
+
   const handleInputChange = (value: string) => {
     if (!startTime) {
       setStartTime(Date.now());
+      // Initialize performance data
+      setPerformanceData([{ time: 0, wpm: 0, raw: 0 }]);
     }
 
     setInput(value);
@@ -53,8 +110,9 @@ export default function TypingTest({ text, language }: TypingTestProps) {
       setCurrentWordIndex(currentWordIndex + 1);
       setCurrentCharIndex(0);
 
-      // Check if test is complete
-      if (currentWordIndex === words.length - 1) {
+      // Check if word-based test is complete
+      if ((testMode === "words" && currentWordIndex + 1 >= wordCount) || 
+          currentWordIndex === words.length - 1) {
         setEndTime(Date.now());
         setIsFinished(true);
       }
@@ -72,14 +130,18 @@ export default function TypingTest({ text, language }: TypingTestProps) {
     setIsFinished(false);
     setCurrentWordIndex(0);
     setCurrentCharIndex(0);
+    setPerformanceData([]);
+    setCurrentWPM(0);
+    setCurrentAccuracy(100);
+    setElapsedTime(0);
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
-  const wpm = startTime && endTime ? calculateWPM(text, startTime, endTime) : 0;
-  const accuracy = calculateAccuracy(text.split(" ").length, errors);
-  const duration = startTime && endTime ? (endTime - startTime) / 1000 : 0;
+  const wpm = startTime && endTime ? calculateWPM(text, startTime, endTime) : currentWPM;
+  const accuracy = isFinished ? calculateAccuracy(text.split(" ").length, errors) : currentAccuracy;
+  const duration = startTime && endTime ? (endTime - startTime) / 1000 : elapsedTime;
 
   const saveResult = async () => {
     if (!session?.user) return;
@@ -96,6 +158,8 @@ export default function TypingTest({ text, language }: TypingTestProps) {
           accuracy,
           duration,
           errors,
+          testMode,
+          performanceData,
         }),
       });
 
