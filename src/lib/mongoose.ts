@@ -14,14 +14,14 @@ interface MongooseCache {
 
 // Add to global namespace
 declare global {
-  // eslint-disable-next-line no-var
+   
   var mongoose: MongooseCache | undefined;
 }
 
 // Use a variable with a type assertion
 const globalMongoose = global.mongoose as MongooseCache | undefined;
 
-let cached: MongooseCache = globalMongoose || {
+const cached: MongooseCache = globalMongoose || {
   conn: null,
   promise: null,
 };

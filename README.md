@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TypeFinger
+
+TypeFinger is an interactive typing practice application designed to help users improve their typing speed and accuracy. With customizable themes, multiple language support, and detailed performance tracking, TypeFinger provides a comprehensive platform for typing skill development.
+
+## Features
+
+- **Multiple Language Support**: Practice typing in English and Bangla
+- **Customizable Themes**: Choose from various themes to personalize your typing experience
+- **Real-time Performance Tracking**: Monitor your WPM, accuracy, and errors as you type
+- **Performance Graphs**: Visualize your typing performance over time
+- **User Accounts**: Create an account to save your progress and track improvements
+- **Leaderboards**: Compete with other users and see how you rank
+- **Customizable Test Settings**: Adjust test duration, word count, and more
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18.x or higher
+- npm or yarn
+- MongoDB (for user accounts and data storage)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/type-finger.git
+   cd type-finger
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Set up environment variables:
+   Copy the `.env.example` file to `.env.local` and fill in your MongoDB URI and other required variables:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+
+## Project Structure
+
+```
+/
+├── public/           # Static assets
+├── src/
+│   ├── app/          # Next.js app router pages
+│   ├── components/   # React components
+│   ├── data/         # Static data files
+│   ├── lib/          # Utility functions and libraries
+│   └── models/       # MongoDB models
+└── ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: Next.js, React, TailwindCSS, Chart.js
+- **Backend**: Next.js API routes
+- **Database**: MongoDB with Mongoose
+- **Authentication**: NextAuth.js
+- **Styling**: TailwindCSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
+Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more details.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Acknowledgments
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Inspired by [MonkeyType](https://monkeytype.com/)
+- Font icons from [Vercel](https://vercel.com/font)
